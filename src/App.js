@@ -2,28 +2,18 @@ import React, {
   Component
 } from 'react';
 import $ from 'jquery';
-import AppBar from 'material-ui/AppBar';
-import {
-  Toolbar,
-  ToolbarTitle,
-} from 'material-ui/Toolbar';
 import FontIcon from 'material-ui/FontIcon';
 import CircularProgress from 'material-ui/CircularProgress';
 import RaisedButton from 'material-ui/RaisedButton';
+import {
+  ToolbarTitle
+} from 'material-ui/Toolbar';
 
-import CsuSvgLogo, {
-  CsuFooter
-} from './CsuBranding';
-
+import AppContainer from './csu-app-template/AppContainer';
 import config from './config.json';
-import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/font-awesome/css/font-awesome.min.css';
-
-document.title = document.title === '' ? config.appName + ' - ' + config.unitTitle : document.title;
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.timerLength = 60;
     this.state = {
@@ -31,63 +21,54 @@ class App extends Component {
       timer: this.timerLength
     };
   }
-  componentDidMount() {
-    $(window).scroll(function() {
-      if ($(this).scrollTop() > 1) {
-        $('#logobar').addClass('display-none');
-        $('#top-toolbar').addClass('sticky');
-      } else {
-        $('#logobar').removeClass('display-none');
-        $('#top-toolbar').removeClass('sticky');
-      }
-    });
-    this.timer = setTimeout(() => this.progress(100/this.timerLength), 1000);
-  }
   progress(completed) {
     if (this.state.timer === 0 || completed < 0) {
-      this.setState({completed: 100});
+      this.setState({
+        completed: 100
+      });
       clearTimeout(this.timer);
       $(location).attr('href', window.location.origin);
     } else {
-      this.setState({completed});
-      this.timer = setTimeout(() => this.progress(completed + 100/this.timerLength), 1000);
-      this.setState({timer: this.state.timer-1});
+      this.setState({
+        completed
+      });
+      this.timer = setTimeout(() => this.progress(completed + 100 / this.timerLength), 1000);
+      this.setState({
+        timer: this.state.timer - 1
+      });
     }
+  }
+  componentDidMount() {
+    this.timer = setTimeout(() => this.progress(100 / this.timerLength), 1000);
   }
   render() {
     const size = 300;
     const style = {
       stacked: {
         margin: 0,
-        left: 'calc(50% - '+size/2+'px)',
+        left: 'calc(50% - ' + size / 2 + 'px)',
         position: 'absolute',
         display: 'inline-block',
-        width: size+'px',
-        height: size+'px',
+        width: size + 'px',
+        height: size + 'px',
         textAlign: 'center',
         verticalAlign: 'middle',
-        lineHeight: size+'px'
+        lineHeight: size + 'px'
       },
-      tooltip:{
-        left: 'calc(50% - '+size/2+'px)',
+      tooltip: {
+        left: 'calc(50% - ' + size / 2 + 'px)',
         position: 'absolute',
       },
       container: {
         position: 'relative',
         margin: 'auto',
-        height: size+'px',
-        width: size+'px'
+        height: size + 'px',
+        width: size + 'px'
       }
     }
+    const header = <ToolbarTitle text={config.app.name} />;
     return (
-      <div>
-        <AppBar
-          id='logobar'
-          iconElementLeft={<CsuSvgLogo />} />
-        <Toolbar id='top-toolbar'>
-          <ToolbarTitle text={config.appName} />
-        </Toolbar>
-        <div id='main-content'>
+      <AppContainer config={config} header={header}>
           <div className='text-center'>
             <h1>We'll be right back</h1>
             <h5 style={{color: 'rgba(0, 0, 0, 0.54)'}}>We are currently updating this app. This page will automaticly refresh every {this.timerLength} seconds.</h5>
@@ -116,16 +97,14 @@ class App extends Component {
             </div>
             <div className='col-md-4 text-center'>
               <RaisedButton
-                href={config.unitContact}
+                href={config.unit.contactHref}
                 label='Contact Us'
                 style={{marginTop: '10px'}}
                 fullWidth={true}
                 icon={<FontIcon className='material-icons'>mail</FontIcon>}/>
             </div>
           </div>
-        </div>
-        <CsuFooter/>
-      </div>
+        </AppContainer>
     );
   }
 }
