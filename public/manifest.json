@@ -1,6 +1,6 @@
 {
-  "short_name": "App Template",
-  "name": "App template for RICRO",
+  "short_name": "Maintenance",
+  "name": "RICRO Maintenance Mode",
   "icons": [{
     "src": "favicon.ico",
     "sizes": "192x192",
