@@ -4,7 +4,7 @@
   },
   "unit": {
     "name": "RICRO",
-    "url": "https://vpr.colostate.edu/ricro/",
+    "siteHref": "https://vpr.colostate.edu/ricro/",
     "contactHref": "https://vpr.colostate.edu/ricro/contact-us"
   },
   "muiTheme": {
